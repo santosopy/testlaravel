@@ -16,7 +16,19 @@ class AdminController extends Controller
             // echo "<pre>";
             // var_dump($data);
             // die();
-           
+
+            $rules = [
+                'email' => 'required|email|max:255',
+                'password' => 'required',
+            ];
+
+            $customMessages = [
+                "email.required" => "email is required",
+                "password.required" => "password is required!!"
+            ];
+            
+            $this->validate($request,$rules,$customMessages);
+
             if(Auth::guard("admin")->attempt(
                 [
                     "email" => $data["email"],
