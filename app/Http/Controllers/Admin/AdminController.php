@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 class AdminController extends Controller
 {
     public function login(Request $request){
@@ -43,6 +44,12 @@ class AdminController extends Controller
             }
         }
         return view("admin.login");
+    }
+    public function updateAdminPassword(){
+        $adminDetails = Admin::where("email", Auth::guard("admin")->user()->email)->first()->toArray();
+        // echo "<pre>";
+        // var_dump(Auth::guard("admin")->user()->email); die();
+        return view("admin.settings.update-admin-password", compact("adminDetails"));
     }
     public function logout(){
         Auth::guard("admin")->logout();
