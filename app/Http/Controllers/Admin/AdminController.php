@@ -70,12 +70,14 @@ class AdminController extends Controller
     public function updateAdminDetails(Request $request){
         if( $request->isMethod("post") ){
             $rules = [
-                "admin_name" => "required",
-                "admin_mobile" => "required",
+                "admin_name" => "required|regex:/^[\pL\s\-]+$/u",
+                "admin_mobile" => "required|numeric",
             ];
             $customMessages = [
                 "admin_name.required" => "name is required",
+                "admin_name.regex" => "name is not valid",
                 "admin_mobile.required" => "mobile is required",
+                "admin_mobile.numeric" => "mobile is not valid",
             ];
             $this->validate($request, $rules, $customMessages);
 

@@ -81,7 +81,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="admin_mobile">Mobile</label>
-                                <input type="number" class="form-control" id="admin_mobile" placeholder="Enter number mobile" name="admin_mobile" value="{{ Auth::guard("admin")->user()->mobile }}">
+                                <input type="text" class="form-control" id="admin_mobile" placeholder="Enter number mobile" name="admin_mobile" value="{{ Auth::guard("admin")->user()->mobile }}">
                             </div>
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                             <button class="btn btn-light">Cancel</button>
