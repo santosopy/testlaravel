@@ -25,11 +25,27 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::prefix("admin")->namespace("App\Http\Controllers\Admin")->group(function(){
+
+    // admin login
     Route::match(["get", "post"], 'login', "AdminController@login");
+
+    // after login
     Route::group(["middleware"=>["admin"]], function(){
+
+        // admin dashboard
         Route::get('dashboard', "AdminController@dashboard");
-        Route::match(["get", "post"], "update-admin-password", "AdminController@updateAdminPassword");
-        Route::get('logout', "AdminController@logout");
+        
+        // admin check password
         Route::post('check-admin-password', "AdminController@checkAdminPassword");
+
+        // admin update password
+        Route::match(["get", "post"], "update-admin-password", "AdminController@updateAdminPassword");
+
+        // admin update details
+        Route::match(["get","post"], "update-admin-details", "AdminController@updateAdminDetails");
+
+        // admin logout
+        Route::get('logout', "AdminController@logout");
     });
+
 });

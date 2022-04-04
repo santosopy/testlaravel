@@ -64,11 +64,32 @@ class AdminController extends Controller
             }
         }
 
-        // echo "<pre>";
-        // var_dump(); die();
-
         $adminDetails = Admin::where("email", Auth::guard("admin")->user()->email)->first()->toArray();
-        return view("admin.settings.update-admin-password", compact("adminDetails"));
+        return view("admin.settings.update_admin_password", compact("adminDetails"));
+    }
+    public function updateAdminDetails(Request $request){
+        if( $request->isMethod("post") ){
+            $rules = [
+                "admin_name" => "required",
+                "admin_mobile" => "required",
+            ];
+            $customMessages = [
+                "admin_name.required" => "name is required",
+                "admin_mobile.required" => "mobile is required",
+            ];
+            $this->validate($request, $rules, $customMessages);
+
+            $data = $request->all();
+            Admin::where("id", Auth::guard("admin")->user()->id)
+                ->update([
+                    "name" => $data["admin_name"],
+                    "mobile" => $data["admin_mobile"],
+                ]);
+            return redirect()->back()->with("success_message", "detail updated");
+            // echo "<pre>";
+            // var_dump($request->all()); die();
+        }
+        return view("admin.settings.update_admin_details");
     }
     public function checkAdminPassword(Request $request){
         $data = $request->all();
