@@ -14,10 +14,6 @@ class AdminController extends Controller
         if($request->isMethod("post")){
             $data = $request->all();
 
-            // echo "<pre>";
-            // var_dump($data);
-            // die();
-
             $rules = [
                 'email' => 'required|email|max:255',
                 'password' => 'required',
@@ -45,7 +41,32 @@ class AdminController extends Controller
         }
         return view("admin.login");
     }
-    public function updateAdminPassword(){
+    public function updateAdminPassword(Request $request){
+        if( $request->isMethod("post") ){
+            $data = $request->all();
+          
+            if( Hash::check($data["current_password"], Auth::guard("admin")->user()->password) ){
+                if( $data["new_password"] == $data["confirm_password"] ){
+                    Admin::where("id", Auth::guard("admin")->user()->id)
+                        ->update(
+                            [
+                                "password" => bcrypt($data["new_password"])
+                            ]
+                        );
+                    return redirect()->back()->with("success_message", "change success");
+                }
+                else{
+                    return redirect()->back()->with("error_message", "new password incorrect");
+                }
+            }
+            else{
+                return redirect()->back()->with("error_message", "current password incorrect");
+            }
+        }
+
+        // echo "<pre>";
+        // var_dump(); die();
+
         $adminDetails = Admin::where("email", Auth::guard("admin")->user()->email)->first()->toArray();
         return view("admin.settings.update-admin-password", compact("adminDetails"));
     }
@@ -57,8 +78,6 @@ class AdminController extends Controller
         else{
             echo "false";
         }
-        // echo "<pre>";
-        // var_dump(); die();
     }
     public function logout(){
         Auth::guard("admin")->logout();
