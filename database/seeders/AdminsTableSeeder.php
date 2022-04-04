@@ -15,19 +15,19 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        $adminRecords = [
-            [
-                'id'=> 1,
-                'name'=> 'Super Admin',
-                'type'=> 'superadmin',
-                'vendor_id'=> 0,
-                'mobile'=> '0123456',
-                'email'=> 'admin@admin.com',
-                'password'=> '2a$12$I.TsdldV4MDhOEEwuUadq.0DCf5UQzNuBg2WOpUM6kj3GaEq6zxSW',
-                'image'=> '',
-                'status'=> 1,
-            ]
-        ];
-        Admin::insert($adminRecords);
+        // $adminRecords = [
+        //     [
+        //         'id'=> 2,
+        //         'name'=> 'john',
+        //         'type'=> 'vendor',
+        //         'vendor_id'=> 1,
+        //         'mobile'=> '970000000',
+        //         'email'=> 'john@admin.com',
+        //         'password'=> '$2a$12$jJdzdqv4ZvuWylDG/nJHGeZVAgx25nhO.vyyO3QS/D1TZkStu0LUK',
+        //         'image'=> '',
+        //         'status'=> 1,
+        //     ]
+        // ];
+        // Admin::insert($adminRecords);
     }
 }
