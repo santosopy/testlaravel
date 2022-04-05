@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Models\Vendor;
 use Image;
 class AdminController extends Controller
 {
@@ -85,6 +86,7 @@ class AdminController extends Controller
             $data = $request->all();
 
             // composer require intervention/image
+            $imageName = "";
             if( $request->hasFile("admin_image") ){
                 $image_tmp = $request->file("admin_image");
                 if($image_tmp->isValid()){
@@ -108,6 +110,67 @@ class AdminController extends Controller
         }
         return view("admin.settings.update_admin_details");
     }
+    public function updateVendorDetails($slug, Request $request){
+        if( $slug=="personal" ){
+            if( $request->isMethod("post") ){
+                $rules = [
+                    "vendor_name" => "required|regex:/^[\pL\s\-]+$/u",
+                    "vendor_mobile" => "required|numeric",
+                ];
+                $customMessages = [
+                    "vendor_name.required" => "name is required",
+                    "vendor_name.regex" => "name is not valid",
+                    "vendor_mobile.required" => "mobile is required",
+                    "vendor_mobile.numeric" => "mobile is not valid",
+                ];
+                $this->validate($request, $rules, $customMessages);
+    
+                $data = $request->all();
+    
+                // composer require intervention/image
+                $imageName = "";
+                if( $request->hasFile("vendor_image") ){
+                    $image_tmp = $request->file("vendor_image");
+                    if($image_tmp->isValid()){
+                        $extension = $image_tmp->getClientOriginalExtension();
+                        $imageName = rand(111,99999).".".$extension;
+                        $imagePath = "admin/images/photos/".$imageName;
+                        Image::make($image_tmp)->save($imagePath);
+                        // echo "<pre>";
+                        // var_dump($image_tmp); die(); 
+                    }
+                }
+    
+                Admin::where("id", Auth::guard("admin")->user()->id)
+                    ->update([
+                        "name" => $data["vendor_name"],
+                        "mobile" => $data["vendor_mobile"],
+                        "image" => $imageName,
+                    ]);
+                Vendor::where("id", Auth::guard("admin")->user()->vendor_id)
+                    ->update([
+                        "name" => $data["vendor_name"],
+                        "adress" => $data["vendor_address"],
+                        "city" => $data["vendor_city"],
+                        "state country" => $data["vendor_state_country"],
+                        "pincode" => $data["vendor_pincode"],
+                        "mobile" => $data["vendor_mobile"],
+                    ]);
+                return redirect()->back()->with("success_message", "detail updated");
+                
+            }
+            $vendorDetails = Vendor::where("id", Auth::guard("admin")->user()->vendor_id)->first()->toArray();
+        }
+        else if( $slug=="business" ){
+            
+        }
+        else if( $slug=="bank" ){
+            
+        }
+        return view("admin.settings.update_vendor_details")
+                ->with(compact("slug", "vendorDetails"));
+    }
+
     public function checkAdminPassword(Request $request){
         $data = $request->all();
         if( Hash::check($data["current_password"], Auth::guard("admin")->user()->password) ){
