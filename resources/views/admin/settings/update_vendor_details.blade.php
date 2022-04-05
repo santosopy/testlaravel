@@ -85,7 +85,23 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="vendor_state_country">State Country</label>
-                                    <input type="text" name="vendor_state_country" id="vendor_state_country" class="form-control" value="{{ $vendorDetails["state country"] }}">
+                                    <select class="form-control" name="vendor_state_country" id="vendor_state_country">
+                                        <option value="us"
+                                        @if($vendorDetails["state country"] == "us")
+                                        selected
+                                        @endif
+                                        >US</option>
+                                        <option value="uk"
+                                        @if($vendorDetails["state country"] == "uk")
+                                        selected
+                                        @endif
+                                        >UK</option>
+                                        <option value="india"
+                                        @if($vendorDetails["state country"] == "india")
+                                        selected
+                                        @endif
+                                        >India</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="vendor_pincode">Pincode</label>
