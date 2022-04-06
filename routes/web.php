@@ -50,6 +50,9 @@ Route::prefix("admin")->namespace("App\Http\Controllers\Admin")->group(function(
         // view admin vendors
         Route::get('admins/{type?}', "AdminController@admins");
 
+        // detail view
+        Route::get('admins/admins-vendor-details/{id}', "AdminController@adminsVendorDetails");
+
         // admin logout
         Route::get('logout', "AdminController@logout");
     });

@@ -195,6 +195,12 @@ class AdminController extends Controller
         // var_dump($admins); die;
         return view("admin.admins.admins")->with(compact("admins","title"));
     }
+    public function adminsVendorDetails($id){
+        $vendorDetails = Admin::with("vendorPersonal", "BusinessPersonal", "BankPersonal")->where("id", $id)->first();
+        $vendorDetails = json_decode($vendorDetails,true);
+        // dump($vendorDetails);
+        return view("admin.admins.vendorDetails")->with(compact("vendorDetails"));
+    }
     public function logout(){
         Auth::guard("admin")->logout();
         return redirect("admin/login");

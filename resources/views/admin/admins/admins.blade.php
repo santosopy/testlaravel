@@ -60,12 +60,21 @@
                                             {{$admin["email"]}}
                                         </td>
                                         <td>
-                                            {{$admin["image"]}}
+                                            <img src="{{ asset("admin/images/photos/".$admin["image"]) }}" alt="">
                                         </td>
                                         <td>
-                                            {{$admin["status"]}}
+                                            @if( $admin["status"]==1 )
+                                                active
+                                            @else
+                                                inactive
+                                            @endif
                                         </td>
                                         <td>
+                                            @if($admin["type"]=="vendor")
+                                            <a href="{{ url("admin/admins/admins-vendor-details/".$admin["id"]) }}">
+                                                <i class="mdi mdi-file-document"></i>
+                                            </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
