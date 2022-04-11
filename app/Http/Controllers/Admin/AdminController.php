@@ -201,6 +201,13 @@ class AdminController extends Controller
         // dump($vendorDetails);
         return view("admin.admins.vendorDetails")->with(compact("vendorDetails"));
     }
+    public function updateAdminStatus(Request $request){
+        $status = ($request->status ==1) ? 0 : 1;
+        Admin::where("id", $request->id)
+            ->update([
+                "status"=> $status
+            ]);
+    }
     public function logout(){
         Auth::guard("admin")->logout();
         return redirect("admin/login");

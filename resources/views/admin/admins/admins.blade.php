@@ -63,11 +63,18 @@
                                             <img src="{{ asset("admin/images/photos/".$admin["image"]) }}" alt="">
                                         </td>
                                         <td>
-                                            @if( $admin["status"]==1 )
-                                                active
-                                            @else
-                                                inactive
-                                            @endif
+                                            <a 
+                                                class="status" 
+                                                data-id="{{ $admin["id"] }}"
+                                                data-status="{{ $admin["status"] }}"
+                                                href="javascript:void(0)"
+                                                >
+                                                @if( $admin["status"]==1 )
+                                                    <i class="mdi mdi-bookmark-plus"></i>
+                                                @else
+                                                    <i class="mdi mdi-bookmark-plus-outline "></i>
+                                                @endif
+                                            </a>
                                         </td>
                                         <td>
                                             @if($admin["type"]=="vendor")
