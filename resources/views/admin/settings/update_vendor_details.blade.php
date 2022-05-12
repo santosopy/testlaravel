@@ -86,22 +86,15 @@
                                 <div class="form-group">
                                     <label for="vendor_state_country">State Country</label>
                                     <select class="form-control" name="vendor_state_country" id="vendor_state_country">
-                                        <option value="us"
-                                        @if($vendorDetails["state country"] == "us")
-                                        selected
+                                        @foreach ($country as $c )
+                                        <option value="{{ $c["country_name"] }}"
+                                        @if ( $c["country_name"] == $vendorDetails["state country"])
+                                            selected
                                         @endif
-                                        >US</option>
-                                        <option value="uk"
-                                        @if($vendorDetails["state country"] == "uk")
-                                        selected
-                                        @endif
-                                        >UK</option>
-                                        <option value="india"
-                                        @if($vendorDetails["state country"] == "india")
-                                        selected
-                                        @endif
-                                        >India</option>
+                                        >{{ $c["country_name"] }}</option>
+                                        @endforeach
                                     </select>
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label for="vendor_pincode">Pincode</label>

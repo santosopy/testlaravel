@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\Vendor;
 use Image;
+use App\Models\Country;
+
 class AdminController extends Controller
 {
     public function login(Request $request){
@@ -167,8 +169,9 @@ class AdminController extends Controller
         else if( $slug=="bank" ){
             
         }
+        $country = Country::where("status", 1)->get()->toArray();
         return view("admin.settings.update_vendor_details")
-                ->with(compact("slug", "vendorDetails"));
+                ->with(compact("slug", "vendorDetails", "country"));
     }
 
     public function checkAdminPassword(Request $request){
