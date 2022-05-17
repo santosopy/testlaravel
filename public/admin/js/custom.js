@@ -43,4 +43,30 @@ jQuery( ()=>{
             }
         })
     })
+
+    // update status sections
+    $(document).on("click",".statusSection", function(){
+        const id = $(this).data("id")
+        const status = $(this).data("status")
+        $.ajax({
+            headers:{
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            type: "post",
+            url: "/admin/update-section-status",
+            data:{
+                id : id,
+                status : status
+            },
+            success: response =>{
+                location.reload()
+            }
+        })
+    })
+
+    // datatable
+    $(document).ready(function () {
+        $('#sections').DataTable();
+    })
+
 })
